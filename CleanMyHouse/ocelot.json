@@ -1,0 +1,31 @@
+{
+    "Routes": [
+        {
+            "DownstreamPathTemplate": "/api/v1/Building",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "cleanmyhouse-building-1",
+                    "Port": 80
+                }
+            ],
+            "UpstreamPathTemplate": "/Building",
+            "UpstreamHttpMethod": [ "Get", "POST", "PUT" ]
+        },
+        {
+            "DownstreamPathTemplate": "/api/v1/User",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "cleanmyhouse-user-1",
+                    "Port": 80
+                }
+            ],
+            "UpstreamPathTemplate": "/User",
+            "UpstreamHttpMethod": [ "Get", "POST", "PUT" ]
+        }
+    ],
+    "GlobalConfiguration": {
+        "BaseUrl": "https://localhost:5000"
+    }
+}
