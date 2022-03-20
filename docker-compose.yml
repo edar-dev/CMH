@@ -1,26 +1,49 @@
 version: '3.4'
 
+volumes: 
+    sql_data_volume:
+
 services:
-  cleanmyhouse:
-    image: cmh/cleanmyhouse:test
-    build:
-      context: ./CleanMyHouse
-      dockerfile: Dockerfile
-    ports: 
-      - "8000:80"
+  #cleanmyhouse:
+  #  image: cmh/cleanmyhouse:test
+  #  build:
+  #    context: ./CleanMyHouse
+  #    dockerfile: Dockerfile
+  #  ports: 
+  #    - "8000:80"
 
-  user:
-    image: cmh/user:test
-    build:
-      context: ./User
-      dockerfile: Dockerfile
-    ports: 
-      - "8002:80"
+  #user:
+  #  image: cmh/user:test
+  #  build:
+  #    context: ./User
+  #    dockerfile: Dockerfile
+  #  ports: 
+  #    - "8002:80"
 
-  building:
-    image: cmh/building:test
+  #building:
+  #  image: cmh/building:test
+  #  build:
+  #    context: ./Building
+  #    dockerfile: Dockerfile
+  #  ports: 
+  #    - "8001:80"
+
+  identity:
+    image: cmh/identity:test
     build:
-      context: ./Building
+      context: ./IdentityServer
       dockerfile: Dockerfile
     ports: 
-      - "8001:80"
+      - "8003:80"
+    depends_on:
+      - identitydb
+
+  identitydb:
+    image: "mcr.microsoft.com/mssql/server"
+    environment:
+      SA_PASSWORD: "Your_password123"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sql_data_volume:/var/opt/mssql
