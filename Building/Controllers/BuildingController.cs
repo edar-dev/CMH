@@ -1,3 +1,5 @@
+using Building.Models;
+using Building.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Building.Controllers
@@ -6,28 +8,51 @@ namespace Building.Controllers
     [Route("/api/v1/[controller]")]
     public class BuildingController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
-
         private readonly ILogger<BuildingController> _logger;
+        private readonly IHouseService _houseService;
 
-        public BuildingController(ILogger<BuildingController> logger)
+        public BuildingController(ILogger<BuildingController> logger, IHouseService houseService)
         {
-            _logger = logger;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _houseService = houseService ?? throw new ArgumentNullException(nameof(houseService));
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Post([FromBody] CreateHouseModel createHouseRequest)
+        {
+            _logger.LogInformation("");
+
+            Guid houseId = Guid.NewGuid();
+
+            try
+            {
+               await _houseService.CreateHouse(createHouseRequest.ToDto(houseId));
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+
+            return RedirectToAction("Get", new { id = houseId });
         }
 
         [HttpGet]
-        public IEnumerable<WeatherForecast> Get()
+        public async Task<ActionResult> Get(Guid id)
         {
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            _logger.LogInformation("");
+
+            Guid houseId = Guid.NewGuid();
+
+            try
             {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
+               var house = await _houseService.GetHouse(id);
+               return Ok(house);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+
         }
     }
 }
