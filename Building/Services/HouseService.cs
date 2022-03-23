@@ -6,19 +6,19 @@ namespace Building.Services
     public class HouseService : IHouseService
     {
         private readonly ILogger<HouseService> _logger;
-        private readonly IHouseRepository _houseRepositoriy;
+        private readonly IHouseRepository _houseRepository;
 
         public HouseService(ILogger<HouseService> logger, IHouseRepository houseRepositoriy)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _houseRepositoriy = houseRepositoriy ?? throw new ArgumentNullException(nameof(houseRepositoriy));
+            _houseRepository = houseRepositoriy ?? throw new ArgumentNullException(nameof(houseRepositoriy));
         }
         public async Task CreateHouse(HouseDto houseDto)
         {
             _logger.LogInformation($"{nameof(CreateHouse)}");
             try
             {
-                await _houseRepositoriy.Create(houseDto);
+                await _houseRepository.Create(houseDto);
             }
             catch (Exception)
             {
@@ -28,9 +28,18 @@ namespace Building.Services
 
         }
 
-        public Task<HouseDto> GetHouse(Guid id)
+        public async Task<HouseDto> GetHouse(Guid id)
         {
-            throw new NotImplementedException();
+            _logger.LogInformation($"{nameof(GetHouse)}");
+            try
+            {
+                return await _houseRepository.Get(id);
+            }
+            catch (Exception)
+            {
+                _logger.LogError($"{nameof(GetHouse)} error");
+                throw;
+            }
         }
     }
 }

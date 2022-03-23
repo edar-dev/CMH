@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 builder.Services.AddScoped<IHouseService, HouseService>();
-builder.Services.AddSingleton<IHouseRepository, HouseRepository>();
+builder.Services.AddSingleton<IHouseRepository, InMemoryHouseRepository>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
