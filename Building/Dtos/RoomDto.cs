@@ -2,13 +2,17 @@
 {
     public class RoomDto
     {
-        private string name;
-        private double dimension;
+        public Guid Id { get; }
+        public string Name { get; }
+        public double Dimension { get; }
+        public Guid HouseId { get; }
 
-        public RoomDto(string name, double dimension)
+        public RoomDto(Guid id, string name, double dimension, Guid houseId)
         {
-            this.name = name;
-            this.dimension = dimension;
+            Id = id;
+            Name = name;
+            Dimension = dimension;
+            HouseId = houseId;
         }
     }
 }

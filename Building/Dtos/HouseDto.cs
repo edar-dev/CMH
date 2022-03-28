@@ -4,13 +4,13 @@
     {
         public Guid Id { get; }
         public string Name { get; }
-        public IEnumerable<object> Rooms { get; }
+        public string Description { get; }
 
-        public HouseDto(Guid id, string name, IEnumerable<object> enumerable)
+        public HouseDto(Guid id, string name, string description)
         {
             Id = id;
             Name = name;
-            Rooms = enumerable;
+            Description = description;
         }
     }
 }

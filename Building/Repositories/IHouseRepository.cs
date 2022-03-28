@@ -1,6 +1,6 @@
 ﻿using Building.Dtos;
 
-namespace Building.Respositories
+namespace Building.Repositories
 {
     public interface IHouseRepository
     {
