@@ -91,10 +91,10 @@ public class BuildingControllerTest
         var typedResult = result as OkObjectResult;
 
         typedResult.Value.Should().NotBeNull();
-        var house = typedResult.Value as HouseDto;
+        var house = typedResult.Value as FullHouseDto;
 
-        house.Id.Should().Be(houseId);
-        house.Name.Should().Be(createHouseRequest.Name);
-        house.Description.Should().Be(createHouseRequest.Description);
+        house.HouseDto.Id.Should().Be(houseId);
+        house.HouseDto.Name.Should().Be(createHouseRequest.Name);
+        house.HouseDto.Description.Should().Be(createHouseRequest.Description);
     }
 }

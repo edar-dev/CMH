@@ -1,33 +1,51 @@
 using Microsoft.AspNetCore.Mvc;
+using User.Application;
+using User.Middleware;
+using User.Requests;
+using User.Responses;
 
-namespace User.Controllers
+namespace User.Controllers;
+
+[ApiController]
+[ServiceFilter(typeof(LogActionFilter))]
+[Route("/api/v1/[controller]")]
+public class UserController : ControllerBase
 {
-    [ApiController]
-    [Route("/api/v1/[controller]")]
-    public class UserController : ControllerBase
+    private readonly ILogger<UserController> _logger;
+    private readonly IUserService _userService;
+
+    public UserController(ILogger<UserController> logger, IUserService userService)
     {
-        private static readonly string[] Summaries = new[]
-        {
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        _userService = userService ?? throw new ArgumentNullException(nameof(userService));
+    }
 
-        private readonly ILogger<UserController> _logger;
+    [HttpGet]
+    public ActionResult Get(Guid id)
+    {
+        return new OkObjectResult(_userService.Get(id));
+    }
 
-        public UserController(ILogger<UserController> logger)
-        {
-            _logger = logger;
-        }
+    [HttpPost]
+    public ActionResult Create(CreateAppUserRequest request)
+    {
+        var appUser = request.ToDto();
+        _userService.Create(appUser);
+        return RedirectToAction("Get", new {id = appUser.Id});
+    }
 
-        [HttpGet]
-        public IEnumerable<WeatherForecast> Get()
-        {
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
-        }
+    [HttpPut]
+    public ActionResult Update(UpdateAppUserRequest request)
+    {
+        _userService.Update(request.ToDto());
+
+        return Ok();
+    }
+
+    [HttpDelete]
+    public ActionResult Delete(Guid userId)
+    {
+        _userService.Delete(userId);
+        return Ok();
     }
 }
