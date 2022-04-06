@@ -24,7 +24,7 @@ public interface IEventBusSubscriptionsManager
     bool HasSubscriptionsForEvent(string eventName);
     Type GetEventTypeByName(string eventName);
     void Clear();
-    IEnumerable<InMemoryEventBusSubscriptionsManager.SubscriptionInfo> GetHandlersForEvent<T>() where T : IntegrationEvent;
-    IEnumerable<InMemoryEventBusSubscriptionsManager.SubscriptionInfo> GetHandlersForEvent(string eventName);
+    IEnumerable<InMemoryEventBusSubscriptionsManager.SubscriptionInfo?> GetHandlersForEvent<T>() where T : IntegrationEvent;
+    IEnumerable<InMemoryEventBusSubscriptionsManager.SubscriptionInfo?> GetHandlersForEvent(string eventName);
     string GetEventKey<T>();
 }

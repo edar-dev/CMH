@@ -27,10 +27,10 @@ public class EventBusRabbitMQ : IEventBus, IDisposable
     private readonly int _retryCount;
 
     private IModel _consumerChannel;
-    private string _queueName;
+    private string? _queueName;
 
     public EventBusRabbitMQ(IRabbitMQPersistentConnection persistentConnection, ILogger<EventBusRabbitMQ> logger,
-        ILifetimeScope autofac, IEventBusSubscriptionsManager subsManager, string queueName = null, int retryCount = 5)
+        ILifetimeScope autofac, IEventBusSubscriptionsManager subsManager, string? queueName = null, int retryCount = 5)
     {
         _persistentConnection = persistentConnection ?? throw new ArgumentNullException(nameof(persistentConnection));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));

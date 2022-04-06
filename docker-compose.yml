@@ -12,15 +12,25 @@ services:
   user:
     image: cmh/user:test
     build:
-      context: ./User
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: Services/User/User.API/Dockerfile
     ports: 
       - "8002:80"
 
   building:
     image: cmh/building:test
     build:
-      context: ./Building
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: Services/Building/Building.API/Dockerfile
     ports: 
       - "8001:80"
+
+  rabbitmq:
+    image: rabbitmq:3.9.3-management-alpine
+    container_name: 'rabbitmq'
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+#    volumes:
+#      - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+#      - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq

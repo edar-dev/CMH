@@ -5,14 +5,14 @@ namespace EventBus;
 
 public partial class InMemoryEventBusSubscriptionsManager : IEventBusSubscriptionsManager
 {
-    private readonly Dictionary<string, List<SubscriptionInfo>> _handlers;
+    private readonly Dictionary<string, List<SubscriptionInfo?>> _handlers;
     private readonly List<Type> _eventTypes;
 
     public event EventHandler<string> OnEventRemoved;
 
     public InMemoryEventBusSubscriptionsManager()
     {
-        _handlers = new Dictionary<string, List<SubscriptionInfo>>();
+        _handlers = new Dictionary<string, List<SubscriptionInfo?>>();
         _eventTypes = new List<Type>();
     }
 
@@ -43,7 +43,7 @@ public partial class InMemoryEventBusSubscriptionsManager : IEventBusSubscriptio
     {
         if (!HasSubscriptionsForEvent(eventName))
         {
-            _handlers.Add(eventName, new List<SubscriptionInfo>());
+            _handlers.Add(eventName, new List<SubscriptionInfo?>());
         }
 
         if (_handlers[eventName].Any(s => s.HandlerType == handlerType))
@@ -81,7 +81,7 @@ public partial class InMemoryEventBusSubscriptionsManager : IEventBusSubscriptio
     }
 
 
-    private void DoRemoveHandler(string eventName, SubscriptionInfo subsToRemove)
+    private void DoRemoveHandler(string eventName, SubscriptionInfo? subsToRemove)
     {
         if (subsToRemove != null)
         {
@@ -100,13 +100,13 @@ public partial class InMemoryEventBusSubscriptionsManager : IEventBusSubscriptio
         }
     }
 
-    public IEnumerable<SubscriptionInfo> GetHandlersForEvent<T>() where T : IntegrationEvent
+    public IEnumerable<SubscriptionInfo?> GetHandlersForEvent<T>() where T : IntegrationEvent
     {
         var key = GetEventKey<T>();
         return GetHandlersForEvent(key);
     }
 
-    public IEnumerable<SubscriptionInfo> GetHandlersForEvent(string eventName) => _handlers[eventName];
+    public IEnumerable<SubscriptionInfo?> GetHandlersForEvent(string eventName) => _handlers[eventName];
 
     private void RaiseOnEventRemoved(string eventName)
     {
@@ -115,14 +115,14 @@ public partial class InMemoryEventBusSubscriptionsManager : IEventBusSubscriptio
     }
 
 
-    private SubscriptionInfo FindDynamicSubscriptionToRemove<TH>(string eventName)
+    private SubscriptionInfo? FindDynamicSubscriptionToRemove<TH>(string eventName)
         where TH : IDynamicIntegrationEventHandler
     {
         return DoFindSubscriptionToRemove(eventName, typeof(TH));
     }
 
 
-    private SubscriptionInfo FindSubscriptionToRemove<T, TH>()
+    private SubscriptionInfo? FindSubscriptionToRemove<T, TH>()
         where T : IntegrationEvent
         where TH : IIntegrationEventHandler<T>
     {
@@ -130,7 +130,7 @@ public partial class InMemoryEventBusSubscriptionsManager : IEventBusSubscriptio
         return DoFindSubscriptionToRemove(eventName, typeof(TH));
     }
 
-    private SubscriptionInfo DoFindSubscriptionToRemove(string eventName, Type handlerType)
+    private SubscriptionInfo? DoFindSubscriptionToRemove(string eventName, Type handlerType)
     {
         if (!HasSubscriptionsForEvent(eventName))
         {
