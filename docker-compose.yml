@@ -1,21 +1,39 @@
 version: '3.4'
 
 services:
+  rabbitmq:
+    image: rabbitmq:3.9.3-management-alpine
+    container_name: 'rabbitmq'
+    hostname: "rabbitmq"
+    labels:
+        NAME: "rabbitmq"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
   cleanmyhouse:
     image: cmh/cleanmyhouse:test
     build:
       context: ./CleanMyHouse
       dockerfile: Dockerfile
+    restart: always
     ports: 
       - "8000:80"
+    depends_on:
+      - user
+      - building
 
   user:
     image: cmh/user:test
     build:
       context: .
       dockerfile: Services/User/User.API/Dockerfile
+    restart: always
     ports: 
       - "8002:80"
+    depends_on:
+      - rabbitmq
+
 
   building:
     image: cmh/building:test
@@ -24,13 +42,6 @@ services:
       dockerfile: Services/Building/Building.API/Dockerfile
     ports: 
       - "8001:80"
+    depends_on:
+      - rabbitmq
 
-  rabbitmq:
-    image: rabbitmq:3.9.3-management-alpine
-    container_name: 'rabbitmq'
-    ports:
-      - "5672:5672"
-      - "15672:15672"
-#    volumes:
-#      - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
-#      - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
