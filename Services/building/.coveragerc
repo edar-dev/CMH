@@ -1,0 +1,14 @@
+[run]
+
+omit=
+    app/migrations/*
+    test/*
+
+[report]
+
+skip_empty=true
+show_missing=true
+
+omit=
+    app/migrations/*
+    test/*
