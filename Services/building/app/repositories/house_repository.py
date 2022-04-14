@@ -1,13 +1,14 @@
-from sqlalchemy import select
 from sqlalchemy.orm import Session
-from app.data.dbmeta import HouseEntity
+
+from data.dbmeta import HouseEntity
 
 
-def get_house(session: Session, house_id) -> HouseEntity:
-    result = session.execute(select(HouseEntity).where(HouseEntity.id == house_id))
+class HouseRepository:
+    def __init__(self, db_session: Session):
+        self._session = db_session
 
-    return result.scalars().one_or_none()
+    def add(self, house: HouseEntity) -> None:
+        self._session.add(house)
 
-
-def save_house(session: Session, house: HouseEntity):
-    session.add(house)
+    def get(self, house_id) -> HouseEntity:
+        self._session.get(house_id)

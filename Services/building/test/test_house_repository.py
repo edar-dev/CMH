@@ -3,7 +3,7 @@ import unittest
 from app.data.dbmeta import HouseEntity
 from test.integration_test import IntegrationTest
 from sqlalchemy.orm import Session
-from app.repositories.house_repository import get_house, save_house
+from app.repositories.house_repository import HouseRepository
 
 
 class HouseRepositoryTestCase(IntegrationTest):
@@ -13,9 +13,10 @@ class HouseRepositoryTestCase(IntegrationTest):
                 id="some_id", alias="some_alias", description="some_desc"
             )
 
-            save_house(session, new_house)
-            house = get_house(session, new_house.id)
-
-            self.assertEqual(new_house.id, house.id)
-            self.assertEqual(new_house.alias, house.alias)
-            self.assertEqual(new_house.description, house.description)
+            # repo = HouseRepository(session)
+            # repo.add(new_house)
+            # house = repo.get(new_house.id)
+            #
+            # self.assertEqual(new_house.id, house.id)
+            # self.assertEqual(new_house.alias, house.alias)
+            # self.assertEqual(new_house.description, house.description)
