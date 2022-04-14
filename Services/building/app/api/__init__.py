@@ -29,4 +29,8 @@ def create_app(test_config=None):
     def hello():
         return "Hello, World!"
 
+    from app.api import house
+
+    app.register_blueprint(house.bp)
+
     return app

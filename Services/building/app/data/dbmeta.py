@@ -1,5 +1,5 @@
-from sqlalchemy.orm import declarative_base
-from sqlalchemy import Column, String
+from sqlalchemy.orm import declarative_base, relationship
+from sqlalchemy import Column, String, ForeignKey
 
 Base = declarative_base()
 
@@ -10,3 +10,12 @@ class HouseEntity(Base):
     id = Column(String, primary_key=True)
     alias = Column(String, nullable=False)
     description = Column(String, nullable=False)
+    rooms = relationship("RoomEntity", back_populates="parent")
+
+
+class RoomEntity(Base):
+    __tablename__ = "rooms"
+
+    id = Column(String, primary_key=True)
+    parent_id = Column(String, ForeignKey("houses.id"))
+    parent = relationship("HouseEntity", back_populates="rooms")

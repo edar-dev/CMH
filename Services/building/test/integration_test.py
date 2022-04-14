@@ -4,6 +4,8 @@ import nanoid
 from alembic.config import Config
 from alembic.command import upgrade
 from sqlalchemy import create_engine
+from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy_utils import database_exists, create_database, drop_database
 
 _DATABASE_NAME_ALPHABET = "qwertyuyiopasdfghjklzxcvbnm"
 
@@ -24,15 +26,18 @@ def _run_migrations(database_connection_string):
 class IntegrationTest(unittest.TestCase):
     def setUp(self):
         self.database_name = nanoid.generate(_DATABASE_NAME_ALPHABET, 64)
-        self.database_file = f"{self.database_name}.db"
-        self.connection_string = f"sqlite:///{self.database_file}"
-
-        _run_migrations(self.connection_string)
+        self.connection_string = f"postgresql+psycopg2://postgres:mysecretpassword@localhost:5432/{self.database_name}"
 
         self.engine = create_engine(self.connection_string, echo=True, future=True)
 
+        if not database_exists(self.engine.url):
+            create_database(self.engine.url)
+
+        _run_migrations(self.connection_string)
+
     def tearDown(self):
         try:
-            os.remove(self.database_file)
-        except OSError:
-            pass
+            if database_exists(self.engine.url):
+                drop_database(self.engine.url)
+        except SQLAlchemyError as er:
+            print(er)

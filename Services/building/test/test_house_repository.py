@@ -15,8 +15,12 @@ class HouseRepositoryTestCase(IntegrationTest):
 
             repo = HouseRepository(session)
             repo.add(new_house)
-            house = repo.get(new_house.id)
+            session.commit()
 
-            self.assertEqual(new_house.id, house.id)
-            self.assertEqual(new_house.alias, house.alias)
-            self.assertEqual(new_house.description, house.description)
+        with Session(self.engine) as session:
+            repo = HouseRepository(session)
+            house = repo.get("some_id")
+
+            self.assertEqual("some_id", house.id)
+            self.assertEqual("some_alias", house.alias)
+            self.assertEqual("some_desc", house.description)

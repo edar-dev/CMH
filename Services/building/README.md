@@ -8,3 +8,9 @@ Pycharm settings, add the correct interpreter
 
 configure the run configuration
 
+
+docker network create -d bridge my-bridge-network
+
+docker run --name some-postgres -e POSTGRES_PASSWORD=mysecretpassword -p 5432:5432 -d --network="my-bridge-network" postgres
+
+docker run --name cmh-pgadmin -p 65123:80 -d -e PGADMIN_DEFAULT_EMAIL=admin@admin.ch -e PGADMIN_DEFAULT_PASSWORD=Password01! --network="my-bridge-network" dpage/pgadmin4
