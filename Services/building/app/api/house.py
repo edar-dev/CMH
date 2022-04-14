@@ -11,9 +11,13 @@ from flask import (
     url_for,
 )
 
+from app.api.schemas import CreateHouseSchema
+
 bp = Blueprint("house", __name__, url_prefix="/house")
 
 
 @bp.route("/create", methods=("GET", "POST"))
-def register():
-    return "create"
+def create():
+    data = request.get_json()
+    schema = CreateHouseSchema()
+    pass

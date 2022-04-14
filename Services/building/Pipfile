@@ -9,6 +9,9 @@ alembic = "*"
 nanoid = "*"
 coverage = "*"
 flask = "*"
+sqlalchemy_utils = "*"
+psycopg2 = "*"
+marshmallow = "*"
 
 [dev-packages]
 black = "*"
