@@ -1,5 +1,7 @@
 import abc
 
+from app.repositories.house_repository import HouseRepository
+
 
 class UnitOfWork(abc.ABC):
     @abc.abstractmethod
@@ -20,7 +22,7 @@ class UnitOfWork(abc.ABC):
 
     @property
     @abc.abstractmethod
-    def houses(self):
+    def houses(self) -> HouseRepository:
         pass
 
 

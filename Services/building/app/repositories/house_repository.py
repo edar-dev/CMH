@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 
-from data.dbmeta import HouseEntity
+from app.data.dbmeta import HouseEntity
 
 
 class HouseRepository:
@@ -11,4 +11,4 @@ class HouseRepository:
         self._session.add(house)
 
     def get(self, house_id) -> HouseEntity:
-        self._session.get(house_id)
+        return self._session.get(HouseEntity, house_id)

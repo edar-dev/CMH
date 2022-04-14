@@ -1,5 +1,5 @@
-from repositories.house_repository import HouseRepository
-from repositories.ports import UnitOfWorkManager, UnitOfWork
+from app.repositories.house_repository import HouseRepository
+from app.repositories.ports import UnitOfWorkManager, UnitOfWork
 
 
 class SqlAlchemyUnitOfWorkManager(UnitOfWorkManager):
@@ -33,5 +33,5 @@ class SqlAlchemyUnitOfWork(UnitOfWork):
         self.session.rollback()
 
     @property
-    def houses(self):
+    def houses(self) -> HouseRepository:
         return HouseRepository(self.session)

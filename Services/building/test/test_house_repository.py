@@ -13,10 +13,10 @@ class HouseRepositoryTestCase(IntegrationTest):
                 id="some_id", alias="some_alias", description="some_desc"
             )
 
-            # repo = HouseRepository(session)
-            # repo.add(new_house)
-            # house = repo.get(new_house.id)
-            #
-            # self.assertEqual(new_house.id, house.id)
-            # self.assertEqual(new_house.alias, house.alias)
-            # self.assertEqual(new_house.description, house.description)
+            repo = HouseRepository(session)
+            repo.add(new_house)
+            house = repo.get(new_house.id)
+
+            self.assertEqual(new_house.id, house.id)
+            self.assertEqual(new_house.alias, house.alias)
+            self.assertEqual(new_house.description, house.description)
