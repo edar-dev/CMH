@@ -21,4 +21,3 @@ class RoomEntity(Base):
     alias = Column(String, nullable=False)
     description = Column(String, nullable=False)
     parent = relationship("HouseEntity", back_populates="rooms")
-

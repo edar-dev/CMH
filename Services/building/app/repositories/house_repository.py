@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 from app.data.dbmeta import HouseEntity
 
 
+# TODO: Refactor the repository so that accept domain model and covert to db entities internally
 class HouseRepository:
     def __init__(self, db_session: Session):
         self._session = db_session

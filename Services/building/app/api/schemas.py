@@ -23,7 +23,5 @@ class CreateHouseSchema(Schema):
 
     @post_load
     def make_house_domain_entity(self, data, **kwargs) -> House:
-        pprint(data)
         house = House(uuid.uuid1(), **data)
         return house
-

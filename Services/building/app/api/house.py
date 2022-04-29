@@ -1,18 +1,12 @@
-import functools
 from pprint import pprint
 
-from flask import (
-    Blueprint,
-    flash,
-    g,
-    redirect,
-    render_template,
-    request,
-    session,
-    url_for,
-)
+from flask import Blueprint, request, g, current_app
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker, scoped_session
 
+from app.api.uowm_app_context import get_uowm
 from app.api.schemas import CreateHouseSchema
+from app.services.create_house_use_case import create_house_use_case
 
 bp = Blueprint("house", __name__, url_prefix="/house")
 
@@ -21,9 +15,11 @@ bp = Blueprint("house", __name__, url_prefix="/house")
 def create():
     data = request.get_json()
     try:
-        schema = CreateHouseSchema().load(data)
+        create_house_model = CreateHouseSchema().load(data)
     except Exception:
         return {"error": True, "errorMessage": "error while deserializing payload"}
 
-    pprint(schema)
-    return schema.alias
+    with get_uowm().start() as uow:
+        create_house_use_case(create_house_model, uow)
+
+    return create_house_model.alias
