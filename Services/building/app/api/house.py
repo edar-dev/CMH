@@ -1,4 +1,5 @@
 import functools
+from pprint import pprint
 
 from flask import (
     Blueprint,
@@ -19,5 +20,10 @@ bp = Blueprint("house", __name__, url_prefix="/house")
 @bp.route("/create", methods=("GET", "POST"))
 def create():
     data = request.get_json()
-    schema = CreateHouseSchema()
-    pass
+    try:
+        schema = CreateHouseSchema().load(data)
+    except Exception:
+        return {"error": True, "errorMessage": "error while deserializing payload"}
+
+    pprint(schema)
+    return schema.alias

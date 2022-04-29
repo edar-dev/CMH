@@ -18,4 +18,7 @@ class RoomEntity(Base):
 
     id = Column(String, primary_key=True)
     parent_id = Column(String, ForeignKey("houses.id"))
+    alias = Column(String, nullable=False)
+    description = Column(String, nullable=False)
     parent = relationship("HouseEntity", back_populates="rooms")
+
