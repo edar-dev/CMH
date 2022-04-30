@@ -54,5 +54,3 @@ class AddRoomsUseCaseTestCase(IntegrationTest):
                 add_rooms_use_case(house.id, [room1, room3, room4], uow)
 
             self.assertTrue(context.exception)
-
-
