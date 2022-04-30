@@ -16,7 +16,7 @@ class UOWTestCase(IntegrationTest):
             new_house = HouseEntity(
                 id="some_id", alias="some_alias", description="some_desc"
             )
-            uow.houses.add(new_house)
+            uow.houses.save(new_house)
 
             uow.commit()
 
@@ -36,7 +36,7 @@ class UOWTestCase(IntegrationTest):
             new_house = HouseEntity(
                 id="some_id", alias="some_alias", description="some_desc"
             )
-            uow.houses.add(new_house)
+            uow.houses.save(new_house)
 
             uow.rollback()
 

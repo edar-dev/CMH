@@ -6,7 +6,7 @@ from sqlalchemy.orm import sessionmaker, scoped_session
 
 from app.api.uowm_app_context import get_uowm
 from app.api.schemas import CreateHouseSchema
-from app.services.create_house_use_case import create_house_use_case
+from app.use_cases.create_house_use_case import create_house_use_case
 
 bp = Blueprint("house", __name__, url_prefix="/house")
 

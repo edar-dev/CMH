@@ -2,11 +2,18 @@ Add in zsh the entry:
 export PIPENV_VENV_IN_PROJECT=1
 
 After clone go in the project folder and run 
-$ pipenv update
+>  pipenv update
 
 Pycharm settings, add the correct interpreter
 
 configure the run configuration
+
+
+to generate a new migration run 
+> alembic revision --autogenerate -m "Really fancy message"
+
+end then 
+> alembic upgrade head 
 
 
 docker network create -d bridge my-bridge-network

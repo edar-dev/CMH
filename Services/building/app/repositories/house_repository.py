@@ -8,8 +8,8 @@ class HouseRepository:
     def __init__(self, db_session: Session):
         self._session = db_session
 
-    def add(self, house: HouseEntity) -> None:
+    def save(self, house: HouseEntity) -> None:
         self._session.add(house)
 
     def get(self, house_id) -> HouseEntity:
-        return self._session.get(HouseEntity, house_id)
+        return self._session.get(HouseEntity, str(house_id))

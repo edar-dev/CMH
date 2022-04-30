@@ -14,7 +14,7 @@ class HouseRepositoryTestCase(IntegrationTest):
             )
 
             repo = HouseRepository(session)
-            repo.add(new_house)
+            repo.save(new_house)
             session.commit()
 
         with Session(self.engine) as session:
