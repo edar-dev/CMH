@@ -1,5 +1,3 @@
-import unittest
-
 from app.data.dbmeta import HouseEntity
 from test.integration_test import IntegrationTest
 from sqlalchemy.orm import Session

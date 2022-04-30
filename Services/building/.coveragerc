@@ -3,6 +3,7 @@
 omit=
     app/migrations/*
     test/*
+    app/api/__init__.py
 
 [report]
 
@@ -12,3 +13,4 @@ show_missing=true
 omit=
     app/migrations/*
     test/*
+    app/api/__init__.py

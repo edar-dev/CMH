@@ -3,7 +3,6 @@ from sqlalchemy.orm import Session
 from app.data.dbmeta import HouseEntity
 
 
-# TODO: Refactor the repository so that accept domain model and covert to db entities internally
 class HouseRepository:
     def __init__(self, db_session: Session):
         self._session = db_session
@@ -13,3 +12,7 @@ class HouseRepository:
 
     def get(self, house_id) -> HouseEntity:
         return self._session.get(HouseEntity, str(house_id))
+
+    def delete(self, house_id):
+        house_to_delete = self.get(house_id)
+        self._session.delete(house_to_delete)
