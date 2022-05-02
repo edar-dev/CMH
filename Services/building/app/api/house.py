@@ -1,11 +1,9 @@
-from pprint import pprint
+import logging
 
-from flask import Blueprint, request, g, current_app
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, scoped_session
+from flask import Blueprint, request
 
-from app.api.uowm_app_context import get_uowm
 from app.api.schemas import CreateHouseSchema
+from app.api.uowm_app_context import get_uowm
 from app.use_cases.create_house_use_case import create_house_use_case
 
 bp = Blueprint("house", __name__, url_prefix="/house")
@@ -20,6 +18,6 @@ def create():
         return {"error": True, "errorMessage": "error while deserializing payload"}
 
     with get_uowm().start() as uow:
-        create_house_use_case(create_house_model, uow)
+        create_house_use_case(create_house_model, uow, logging.getLogger("devLogger"))
 
     return create_house_model.alias

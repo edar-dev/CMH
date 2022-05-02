@@ -4,7 +4,6 @@ from app.repositories.ports import UnitOfWork
 from app.data.db_mapper import to_room_entity
 from app.domain.room import Room
 
-
 def add_rooms_use_case(house_id: uuid, rooms: list[Room], uow: UnitOfWork):
     house = uow.houses.get(str(house_id))
 
