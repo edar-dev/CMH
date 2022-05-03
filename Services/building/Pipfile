@@ -12,6 +12,7 @@ flask = "*"
 sqlalchemy_utils = "*"
 psycopg2 = "*"
 marshmallow = "*"
+structlog = "*"
 
 [dev-packages]
 black = "*"
