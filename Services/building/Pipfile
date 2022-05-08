@@ -13,6 +13,7 @@ sqlalchemy_utils = "*"
 postgres= "*"
 psycopg2 = "*"
 marshmallow = "*"
+structlog = "*"
 
 [dev-packages]
 black = "*"

@@ -9,3 +9,6 @@ class House:
         self.alias = alias
         self.description = description
         self.rooms = rooms
+
+    # def __repr__(self):
+    #     return str(self.id)
